@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "BookmarkAI · 智能书签助手",
+  "version": "1.0.0",
+  "description": "监听书签新增，自动抓取页面内容并使用 AI 生成摘要与标签",
+  "permissions": [
+    "bookmarks",
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookmarkAI · 设置</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d16;
+      --surface: #12121e;
+      --surface2: #1a1a2e;
+      --border: rgba(99,102,241,0.18);
+      --border-hover: rgba(99,102,241,0.4);
+      --accent: #6366f1;
+      --accent-light: #a5b4fc;
+      --accent-glow: rgba(99,102,241,0.3);
+      --text: #e2e2f0;
+      --text-muted: #6b7280;
+      --text-sub: #9ca3af;
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --input-bg: #0f0f1c;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ——— Header ——— */
+    .page-header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-logo {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .header-title {
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #a5b4fc, #c4b5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ——— Layout ——— */
+    .page-body {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 32px 32px 0;
+    }
+
+    /* ——— Section ——— */
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .section-icon.ai { background: rgba(99,102,241,0.15); }
+    .section-icon.backend { background: rgba(16,185,129,0.15); }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .section-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: var(--border-hover); }
+
+    /* ——— Fields ——— */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-required { background: rgba(239,68,68,0.15); color: #f87171; }
+    .badge-optional { background: rgba(99,102,241,0.12); color: #818cf8; }
+
+    .field-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="url"],
+    textarea {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 9px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      padding: 10px 13px;
+      outline: none;
+      transition: all 0.2s;
+      line-height: 1.5;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="url"]:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: #13132a;
+    }
+    input::placeholder, textarea::placeholder { color: #3d4260; }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 12.5px;
+    }
+
+    /* ——— AI Presets ——— */
+    .presets {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .preset-btn {
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1.5px solid rgba(99,102,241,0.25);
+      background: rgba(99,102,241,0.08);
+      color: var(--accent-light);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .preset-btn:hover {
+      background: rgba(99,102,241,0.2);
+      border-color: rgba(99,102,241,0.5);
+    }
+    .preset-btn.active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.35), rgba(139,92,246,0.25));
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* ——— Divider ——— */
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+      margin: 4px 0;
+    }
+
+    /* ——— Actions ——— */
+    .actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 22px;
+      border-radius: 9px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(79,70,229,0.35);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(79,70,229,0.5);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-sub);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+    }
+
+    /* ——— Toast ——— */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+      z-index: 100;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast.success {
+      background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.4);
+      color: #34d399;
+    }
+    .toast.error {
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.4);
+      color: #f87171;
+    }
+
+    /* ——— Test result ——— */
+    .test-result {
+      padding: 10px 13px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      word-break: break-all;
+      display: none;
+      line-height: 1.6;
+    }
+    .test-result.success {
+      display: block;
+      background: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.3);
+      color: #34d399;
+    }
+    .test-result.error {
+      display: block;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      color: #f87171;
+    }
+
+    /* ——— Scrollbar ——— */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 10px; }
+
+    /* ——— Tab Nav ——— */
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      padding: 5px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      width: fit-content;
+      margin-bottom: 28px;
+    }
+    .tab-btn {
+      padding: 7px 20px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--text-sub); background: rgba(255,255,255,0.05); }
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.2));
+      color: var(--accent-light);
+      border: 1px solid rgba(99,102,241,0.3);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ——— Log Viewer ——— */
+    .log-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .log-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+    .filter-group {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .level-chip {
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1.5px solid transparent;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      transition: all 0.15s;
+      opacity: 0.45;
+    }
+    .level-chip.on { opacity: 1; }
+    .level-chip.debug  { border-color: #4b5563; color: #9ca3af; }
+    .level-chip.debug.on  { background: rgba(75,85,99,0.2); }
+    .level-chip.info   { border-color: rgba(99,102,241,0.5); color: #a5b4fc; }
+    .level-chip.info.on   { background: rgba(99,102,241,0.15); }
+    .level-chip.warn   { border-color: rgba(245,158,11,0.5); color: #fbbf24; }
+    .level-chip.warn.on   { background: rgba(245,158,11,0.12); }
+    .level-chip.error  { border-color: rgba(239,68,68,0.5); color: #f87171; }
+    .level-chip.error.on  { background: rgba(239,68,68,0.12); }
+
+    .log-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 560px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .log-item {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 9px;
+      padding: 10px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.15s;
+    }
+    .log-item:hover { border-color: rgba(255,255,255,0.13); }
+    .log-item.debug { border-left: 3px solid #4b5563; }
+    .log-item.info  { border-left: 3px solid #6366f1; }
+    .log-item.warn  { border-left: 3px solid #f59e0b; }
+    .log-item.error { border-left: 3px solid #ef4444; }
+
+    .log-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .log-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+    .log-item.debug .log-badge { background: rgba(75,85,99,0.3); color: #9ca3af; }
+    .log-item.info  .log-badge { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+    .log-item.warn  .log-badge { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .log-item.error .log-badge { background: rgba(239,68,68,0.15); color: #f87171; }
+
+    .log-ts {
+      font-size: 11px;
+      color: #374151;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      flex-shrink: 0;
+    }
+    .log-msg {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .log-data {
+      font-size: 11.5px;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      color: #6b7280;
+      background: rgba(0,0,0,0.3);
+      border-radius: 6px;
+      padding: 7px 10px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.6;
+      max-height: 160px;
+      overflow-y: auto;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+    .log-data:hover { color: #9ca3af; }
+
+    .log-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .log-empty .empty-icon { font-size: 32px; margin-bottom: 10px; }
+
+    /* ——— Hint box ——— */
+    .hint-box {
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(99,102,241,0.08);
+      border: 1px solid rgba(99,102,241,0.2);
+      font-size: 12px;
+      color: #818cf8;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .hint-box code {
+      background: rgba(99,102,241,0.15);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div class="header-logo">🔖</div>
+      <div>
+        <div class="header-title">BookmarkAI · 配置中心</div>
+        <div class="header-sub">配置 AI 接口与数据回传，实现智能书签分析</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <!-- Tab 导航 -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="config">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        配置
+      </button>
+      <button class="tab-btn" data-tab="logs">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        运行日志
+        <span id="logBadge" style="display:none;background:rgba(239,68,68,0.25);color:#f87171;font-size:10px;padding:1px 6px;border-radius:10px;font-weight:700;"></span>
+      </button>
+    </div>
+
+    <!-- ========== 配置 Tab ========== -->
+    <div class="tab-panel active" id="tab-config">
+
+    <!-- ========== AI 配置 ========== -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon ai">🤖</div>
+        <div>
+          <div class="section-title">AI 接口配置</div>
+          <div class="section-desc">支持所有 OpenAI 兼容格式的接口（Kimi、Qwen、DeepSeek 等）</div>
+        </div>
+      </div>
+
+      <div class="card">
+
+        <!-- 快捷预设 -->
+        <div class="field">
+          <div class="field-label">快捷填入预设</div>
+          <div class="field-hint">点击自动填入对应服务的接口地址和模型参数示例，只需再填入你的密钥即可</div>
+          <div class="presets">
+            <button class="preset-btn" data-preset="kimi">🌙 Kimi (月之暗面)</button>
+            <button class="preset-btn" data-preset="qwen">☁️ 通义千问 (Qwen)</button>
+            <button class="preset-btn" data-preset="deepseek">🔍 DeepSeek</button>
+            <button class="preset-btn" data-preset="zhipu">🧠 智谱 AI (GLM)</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 请求地址 -->
+        <div class="field">
+          <div class="field-label">
+            请求地址（Endpoint）
+            <span class="field-badge badge-required">必填</span>
+          </div>
+          <input type="url" id="apiUrl" placeholder="https://api.moonshot.cn/v1/chat/completions" />
+          <div class="field-hint">OpenAI 兼容的 Chat Completions 接口地址</div>
+        </div>
+
+        <!-- 密钥 -->
+        <div class="field">
+          <div class="field-label">
+            API 密钥
+            <span class="field-badge badge-required">必填</span>
+          </div>
+          <input type="password" id="apiKey" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx" />
+          <div class="field-hint">密钥本地加密存储，不会上传到任何服务器</div>
+        </div>
+
+        <!-- 模型参数 -->
+        <div class="field">
+          <div class="field-label">
+            模型参数（JSON）
+            <span class="field-badge badge-optional">可选</span>
+          </div>
+          <textarea id="modelParams" spellcheck="false">{
+  "model": "moonshot-v1-8k",
+  "max_tokens": 1000,
+  "temperature": 0.3
+}</textarea>
+          <div class="field-hint">
+            JSON 格式。<strong>model</strong>（必须指定）、max_tokens、temperature 等参数。
+            此处的参数会与固定的 messages 字段合并后发送。
+          </div>
+        </div>
+
+        <!-- 测试结果 -->
+        <div class="test-result" id="testResult"></div>
+
+        <!-- 操作按钮 -->
+        <div class="actions">
+          <button class="btn btn-primary" id="saveAiBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            保存 AI 配置
+          </button>
+          <button class="btn btn-ghost" id="testAiBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            测试连通性
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== 后台配置 ========== -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon backend">🔗</div>
+        <div>
+          <div class="section-title">数据回传配置</div>
+          <div class="section-desc">书签分析完成后，将结构化数据 POST 到指定接口</div>
+        </div>
+      </div>
+
+      <div class="card">
+
+        <!-- 回传地址 -->
+        <div class="field">
+          <div class="field-label">
+            数据回传地址
+            <span class="field-badge badge-optional">可选</span>
+          </div>
+          <input type="url" id="backendUrl" placeholder="https://your-api.example.com/bookmarks" />
+          <div class="field-hint">
+            留空则不回传，只在控制台打印。接口需支持 <strong>POST</strong> 请求，接收 JSON 格式数据。
+          </div>
+        </div>
+
+        <!-- 请求凭证 -->
+        <div class="field">
+          <div class="field-label">
+            请求凭证（Token）
+            <span class="field-badge badge-optional">可选</span>
+          </div>
+          <input type="password" id="backendToken" placeholder="your-secret-token" />
+          <div class="field-hint">
+            将以 <code style="color:#818cf8;font-size:11px;">Authorization: Bearer &lt;token&gt;</code> 形式附加到请求头中
+          </div>
+        </div>
+
+        <!-- 数据格式说明 -->
+        <div class="field">
+          <div class="field-label">回传数据格式预览</div>
+          <textarea readonly style="color:#6b7280;cursor:default;min-height:200px;">{
+  "bookmark_id": "uuid-v4",
+  "url": "https://example.com",
+  "bookmark_title": "用户设定的书签名",
+  "folder_path": "Bookmarks bar/技术/前端",
+  "date_added": "1714000000000",
+  "page_title": "页面 <title> 标签内容",
+  "page_description": "页面 meta description",
+  "page_text": "正文文字节选（最多500字）",
+  "generated_title": "AI 生成的简洁标题",
+  "generated_description": "AI 生成的内容摘要",
+  "crawl_error": "抓取失败时的错误信息",
+  "tags": "标签1,标签2,标签3"
+}</textarea>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" id="saveBackendBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            保存后台配置
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    </div><!-- /tab-config -->
+
+    <!-- ========== 日志 Tab ========== -->
+    <div class="tab-panel" id="tab-logs">
+
+      <div class="hint-box">
+        💡 <strong>为什么网页 F12 看不到日志？</strong><br>
+        插件的 Background Service Worker 有独立的控制台。查看方式：<code>chrome://extensions</code> → 找到本插件 → 点击 <code>Service Worker</code> 蓝色链接 → 打开专属 DevTools。<br>
+        下方日志是同步写入本地存储的副本，方便直接在这里查看。
+      </div>
+
+      <div class="log-toolbar">
+        <span class="filter-label">级别过滤：</span>
+        <div class="filter-group">
+          <span class="level-chip debug on" data-level="debug">Debug</span>
+          <span class="level-chip info on"  data-level="info">Info</span>
+          <span class="level-chip warn on"  data-level="warn">Warn</span>
+          <span class="level-chip error on" data-level="error">Error</span>
+        </div>
+        <span class="log-count" id="logCount">0 条</span>
+        <button class="btn btn-ghost" id="refreshLogsBtn" style="padding:6px 14px;font-size:12px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          刷新
+        </button>
+        <button class="btn btn-ghost" id="clearLogsBtn" style="padding:6px 14px;font-size:12px;color:#f87171;border-color:rgba(239,68,68,0.25);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          清空日志
+        </button>
+      </div>
+
+      <div class="log-list" id="logList">
+        <div class="log-empty">
+          <div class="empty-icon">📋</div>
+          暂无日志，开启监听并添加书签后这里会显示处理记录
+        </div>
+      </div>
+
+    </div><!-- /tab-logs -->
+
+  </div><!-- /page-body -->
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>
