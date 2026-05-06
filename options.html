@@ -662,19 +662,22 @@
         <!-- 数据格式说明 -->
         <div class="field">
           <div class="field-label">回传数据格式预览</div>
-          <textarea readonly style="color:#6b7280;cursor:default;min-height:200px;">{
-  "bookmark_id": "uuid-v4",
-  "url": "https://example.com",
-  "bookmark_title": "用户设定的书签名",
-  "folder_path": "Bookmarks bar/技术/前端",
-  "date_added": "1714000000000",
-  "page_title": "页面 <title> 标签内容",
-  "page_description": "页面 meta description",
-  "page_text": "正文文字节选（最多500字）",
-  "generated_title": "AI 生成的简洁标题",
-  "generated_description": "AI 生成的内容摘要",
-  "crawl_error": "抓取失败时的错误信息",
-  "tags": "标签1,标签2,标签3"
+          <textarea readonly style="color:#6b7280;cursor:default;min-height:240px;">{
+  "bookmarks": [
+    {
+      "url": "https://example.com",
+      "bookmark_title": "用户设定的书签名",
+      "folder_path": "Bookmarks bar/技术/前端",
+      "date_added": "1714000000000",
+      "page_title": "页面 <title> 标签内容",
+      "page_description": "页面 meta description",
+      "page_text": "正文文字节选（最多500字）",
+      "generated_title": "AI 生成的简洁标题",
+      "generated_description": "AI 生成的内容摘要",
+      "crawl_error": "抓取失败时的错误信息",
+      "tags": "标签1,标签2,标签3"
+    }
+  ]
 }</textarea>
         </div>
 
